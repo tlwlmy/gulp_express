@@ -15,7 +15,7 @@ var del = require('del');    // 删除文件
 // hmlt文件压缩
 gulp.task('html', function(){
   gulp.src('src/html/*.html')
-    .pipe(minifyhtml())
+    //.pipe(minifyhtml())
     .pipe(gulp.dest('dist/html'))
     .pipe(browserSync.stream());
 });
@@ -33,8 +33,8 @@ gulp.task('script', function() {
   gulp.src('src/js/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter())    // 输出检查结果
-    .pipe(concat('all.js'))
-    .pipe(uglify())
+    //.pipe(concat('all.js'))
+    //.pipe(uglify())
     .pipe(gulp.dest('dist/js'))
     .pipe(browserSync.stream());
 });

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no" name="viewport">
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <title></title>
+    <!--<base href="{{ tpl_domain }}" />-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?5631470ad012c63567ea1c408a605bc0";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/v3.css">
+    <style>
+        #wrapper {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: url("/images/1030129802.jpg") no-repeat;
+            background-size: 100%;
+            overflow: hidden;
+            background-color: #272b2e;
+            width: 100%;
+        }
+
+        #scroller {
+            position: absolute;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            -webkit-transform: translateZ(0);
+        }
+        .swiper-container,.swiper-wrapper{
+            width: 100%;
+        }
+        .swiper-slide{
+            background-color: #f8f8f8;
+        }
+    </style>
+</head>
+<body>
+<div class="swiper-container" id="wrapper">
+    <div class="swiper-wrapper" id="scroller">
+        <div class="swiper-slide">
+            <div class="box box-vertical bgc-white article-container fs-15">
+                <div class="publish"></div>
+                <!--<script id="publish" type="template/text">-->
+                    <div class="fs-24 fc-2b title">实拍深圳暴力砸门接亲 姐妹团脸被划伤</div>
+                    <div class="mt11 box publish fs-16">
+                        <div>2018-05-02</div>
+                        <div class="author ml12">社会新闻</div>
+                    </div>
+                <!--</script>-->
+                <div class="aver aver-large aver1 mt16">
+                    <img src="" class="aver1-icon" width="100%">
+                </div>
+
+                <div class="content mt24 relative">
+                    <div id="content"></div>
+                    <div class="showAll-container absolute">
+                        <div class="red-btn showAll-btn absolute">阅读全文</div>
+                    </div>
+                </div>
+
+                <div class="video mt24">
+                    <!--<video width="100%" id="video" controls="controls" playsinline="true" webkit-playsinline="true"></video>-->
+                    <div id="video"></div>
+                    <div class="poster relative">
+                        <img src="/images/play.png" class="play-icon absolute" width="42" height="42">
+                    </div>
+                </div>
+
+                <div class="stat mt26 box bac fs-15 mb20">
+                    <div class="read-btn">阅读原文</div>
+                    <div class="ml18">阅读</div>
+                    <div class="ml3" id="readNum"></div>
+                    <div class="box bac ml18" id="like">
+                        <img src="/images/like.png" width="13" height="13" class="icon-like">
+                        <div class="ml3" id="likeNum"></div>
+                    </div>
+                    <div class="flex1"></div>
+                    <div class="complain-btn">投诉</div>
+                </div>
+            </div>
+            <div class="article-line"></div>
+            <div class="box box-vertical bac mt16 pl15 pr15 aver-bottom">
+                <div class="box bac f-width">
+                    <div class="bottom-line flex1"></div>
+                    <img class="ml6 mr6" src="/images/bottom.png" width="32">
+                    <div class="bottom-line flex1"></div>
+                </div>
+                <div class="aver-large aver2 mt16">
+                    <img src="" class="aver2-icon" width="100%">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="aver aver-flow aver3">
+    <img src="" class="aver3-icon" width="100%" height="100%">
+</div>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script>
+<script src="https://imgcache.qq.com/tencentvideo_v1/tvp/js/tvp.player_v2_zepto.js" charset="utf-8"></script>
+<script src="https://v.qq.com/iframe/tvp.config.js" charset="utf-8"></script>
+<!-- build:js build/js/v3A.js -->
+<!--<script src="/js/iscroll.js"></script>-->
+<!--<script src="/js/api.js"></script>-->
+<!--<script src="/js/v3A.js"></script>-->
+<!-- endbuild -->
+<!--<script src="//cdn.bootcss.com/eruda/1.3.0/eruda.min.js"></script>-->
+<!--<script>eruda.init();</script>-->
+<script>
+    // var py = '{"title":"111","author":"222","content":"v0507y7cc72","type":1,"create_time":1510797711,"aver":[{"alid":1,"name":"","desc":"","url":"http://a","icon":"https://www.baidu.com/img/bd_logo1.png"},{"alid":2,"name":"","desc":"","url":"http://b","icon":"https://images.csdn.net/20171023/1.png"},{"alid":3,"name":"","desc":"","url":"http://c","icon":"https://images.csdn.net/20171025/05.jpg"},{"alid":4,"name":"","desc":"","url":"http://www.baidu.com","icon":"https://images.csdn.net/20171025/05.jpg"}],"complain_url":"complain.html", "aid": 1, "ref": 0, "real_url": "http://192.168.7.133:8000/articleTest.html"}'
+
+    //var replacePyStr
+    //py = JSON.parse(py)
+
+    //var farid = 0     // 文章ID
+    //var shareTimes = 0      // 操作次数
+    //var auth       // 再次进入
+
+    //$(function () {
+    //    getFarid()
+    //    setSelect()
+
+    //    checkWx()
+    //    clearItem()
+    //    checkData()
+    //    checkRead()
+    //    initData()
+    //    checkStatus()
+    //    bindComplain()
+    //})
+
+    var count = 0 // 表示未分享 1-4表示分享中 5表示分享成功
+
+	playVideo('u0568c58yt2', 'video', $('#video').width())
+    initVideo()
+
+
+    // 定义视频
+    function playVideo(vid, elId, elWidth) {
+        //定义视频对象
+        video = new tvp.VideoInfo()
+        //向视频对象传入视频vid
+        video.setVid(vid)
+
+        //定义播放器对象
+        player = new tvp.Player(elWidth, 200)
+        //设置播放器初始化时加载的视频
+        player.setCurVideo(video)
+
+        //输出播放器,参数就是上面div的id，希望输出到哪个HTML元素里，就写哪个元素的id
+        //player.addParam("autoplay","1")
+        player.addParam('wmode', 'transparent')
+        player.addParam('pic', tvp.common.getVideoSnapMobile(vid))
+        player.write(elId)
+
+        //getVideo()
+        findVideo()
+    }
+
+    var video = null
+    function findVideo() {
+        setTimeout(function () {
+            video = document.getElementsByTagName('video')[0]
+            if (video) {
+            } else {
+                findVideo()
+            }
+        }, 50)
+    }
+
+    function removeShare() {
+        $('.friend').remove()
+        $('.timeline').remove()
+    }
+
+    function showFriend () {
+        removeShare()
+        var html = '<div class="friend share"><div class="cover"></div><img src="/images/weixinghaoyou.png" class="share-img"></div>'
+        $('body').append(html)
+
+        addCount()
+        //$('.friend').click(function () {
+            //$('.friend').remove()
+        //})
+    }
+
+    // 朋友圈
+    function showTimeline() {
+        removeShare()
+        var html = '<div class="timeline share"><div class="cover"></div><img src="/images/pengyouquan.png" class="share-img"></div>'
+        $('body').append(html)
+
+        addCount()
+
+        //$('.timeline').click(function () {
+            //$('.timeline').remove()
+        //})
+    }
+
+    function addCount() {
+        var html = '\
+                <div class="add-count"> \
+                    <div class="cover"></div> \
+                    <div class="bgc-white tip-container box box-vertical bac fc-2b fs-15 tac"> \
+                        <div class="tip-content box bac bpc">添加次数</div> \
+                        <div class="red-btn add-ensure-btn ">确定</div> \
+                    </div> \
+                </div> \
+                '
+        $('body').append(html)
+        $('.add-ensure-btn').click(function () {
+            removeShare()
+            count += 1
+            $('.add-count').remove()
+            initVideo()
+        })
+    }
+
+    function initVideo() {
+        var str = '';
+        var fn = '';
+
+        console.log(count)
+
+        switch (count) {
+            case 0:
+			    str = '<img src="/images/5.png" width="100%">'
+                fn = function () {
+                    showFriend()
+                }
+                break;
+            case 1:
+            case 2:
+				str = '<img src="/images/11.png" width="100%">'
+                fn = function () {
+                    showFriend()
+                }
+                break;
+            case 3:
+				str = '<img src="/images/12.png" width="100%">'
+                fn = function () {
+                    showTimeline()
+                }
+                break;
+            default:
+                break;
+        }
+
+        console.log(str)
+        showTip(str, fn)
+    }
+
+    // 提示框
+    function showTip (str, fn) {
+        $('.tip').remove()
+        var tip = '<div class="tip"><div class="cover"></div><div class="bgc-white tip-container box box-vertical bac fc-2b fs-15 tac"><div class="tip-content box bac bpc">' + str + '</div><div class="red-btn tip-ensure-btn ">确定</div></div></div>'
+        $('body').append(tip)
+        $('.add-count').show()
+
+        $('.tip-ensure-btn').click(function () {
+            if (fn != '') {
+                fn()
+            }
+            $('.tip').remove()
+        })
+    }
+
+</script>
+</body>
