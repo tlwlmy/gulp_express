@@ -24,11 +24,9 @@ var server = app.listen(3000, function () {
 
 //index page
 app.get('/index',function(req, res){
-
     console.log(req.headers);
     res.render('index',{
         title:'首页 ',
         content: 'hello swig'
     })
 })
-
