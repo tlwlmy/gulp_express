@@ -52,7 +52,7 @@ gulp.task('images', function() {
 
 // 删除缓存文件
 gulp.task('clean', function(cb) {
-  del(['dist/html', 'dist/css', 'dist/js', 'dist/images'], cb);
+  return del(['dist/html', 'dist/css', 'dist/js', 'dist/images'], cb);
 });
 
 // 构建

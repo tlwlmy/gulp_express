@@ -1,4 +1,3 @@
-
 var express = require('express')
 var swig = require('swig')
 
