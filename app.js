@@ -24,7 +24,7 @@ app.set('view cache', false)
 app.set('views', './dist/html/')
 app.set('view engine', 'html')
 app.engine('html', swig.renderFile)
-// app.use(express.static('dist'));
+app.use(express.static('dist'))
 
 var server = app.listen(3000, function () {
   var host = server.address().address;

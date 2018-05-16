@@ -1,35 +1,18 @@
 var express = require('express');
 var router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+var functions = require('./../common/functions')
+//var aes_cipher = require('./../module/aes-cipher')
 
 //index page
-router.get('/index',function(req, res){
-    console.log(req);
-    console.log(req.headers);
+router.get('/sv',function(req, res){
 
-    console.log(JSON.stringify(req.query))
-    console.log(req.method);
+  // 生产获取素材链接
+  murl = functions.generate_material_url()
+  console.log(murl)
 
-    res.render('index',{
-        title:'首页 ',
-        content: 'hello swig'
-    })
+  res.render('v3A',{
+    title:'首页 ',
+  })
 })
-
-//index page
-router.post('/index',function(req, res){
-    console.log(req);
-    console.log(JSON.stringify(req.body))
-
-    res.render('index',{
-        title:'首页 ',
-        content: 'hello swig'
-    })
-})
-
 
 module.exports = router;
