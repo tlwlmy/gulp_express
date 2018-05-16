@@ -4,7 +4,7 @@ var aes_cipher = require('./../module/aes-cipher')
 module.exports.aes_encrypt_dict = function (final) {
   var encrypted = aes_cipher.encrypt_dict(constant.AES_ENCRYPT_SECRET, final)
 
-  return encodeURI(encrypted)
+  return encodeURIComponent(encrypted)
 }
 
 module.exports.generate_material_url = function () {
