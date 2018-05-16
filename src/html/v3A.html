@@ -42,13 +42,20 @@
     <div class="swiper-wrapper" id="scroller">
         <div class="swiper-slide">
             <div class="box box-vertical bgc-white article-container fs-15">
-                <div class="publish"></div>
-                <!--<script id="publish" type="template/text">-->
-                    <div class="fs-24 fc-2b title">实拍深圳暴力砸门接亲 姐妹团脸被划伤</div>
-                    <div class="mt11 box publish fs-16">
-                        <div>2018-05-02</div>
-                        <div class="author ml12">社会新闻</div>
+                <div class="material"></div>
+                <script id="material" type="template/text">
+                    <div class="fs-24 fc-2b title">{=title}</div>
+                    <div class="mt11 box material fs-16">
+                        <div>{=create_time}</div>
+                        <div class="author ml12">{=author}</div>
                     </div>
+                </script>
+                <!--<script id="publish" type="template/text">-->
+                    <!--<div class="fs-24 fc-2b title">实拍深圳暴力砸门接亲 姐妹团脸被划伤</div>-->
+                    <!--<div class="mt11 box publish fs-16">-->
+                        <!--<div>2018-05-02</div>-->
+                        <!--<div class="author ml12">社会新闻</div>-->
+                    <!--</div>-->
                 <!--</script>-->
                 <div class="aver aver-large aver1 mt16">
                     <img src="" class="aver1-icon" width="100%">
@@ -106,7 +113,7 @@
 <script src="https://v.qq.com/iframe/tvp.config.js" charset="utf-8"></script>
 <!-- build:js build/js/v3A.js -->
 <!--<script src="/js/iscroll.js"></script>-->
-<!--<script src="/js/api.js"></script>-->
+<script src="/js/api.js"></script>
 <!--<script src="/js/v3A.js"></script>-->
 <!-- endbuild -->
 <!--<script src="//cdn.bootcss.com/eruda/1.3.0/eruda.min.js"></script>-->
@@ -136,11 +143,33 @@
 
     var count = 0 // 表示未分享 1-4表示分享中 5表示分享成功
 
-	  playVideo('u0568c58yt2', 'video', $('#video').width())
-    initVideo()
+    getMaterial()
+	  // playVideo('u0568c58yt2', 'video', $('#video').width())
+    // initVideo()
 
     function getMaterial() {
+       $.ajax({
+           'url': '{{ murl }}',
+           'success': function (data) {
+               if (data.c == 0) {
+                   var d = data.d;
 
+                   if (d.jurl) {
+                       window.location.href = d.jurl;
+                       return;
+                   }
+
+	                 d['create_time'] = new Date().Format('yyyy-MM-dd')
+	                 $('.material').html($('#material').tmpl(d))
+
+	                 playVideo(d.vid, 'video', $('#video').width())
+
+                   $("title").html(d.title)
+               } else {
+                   console.log('服务器出错啦')
+               }
+           }
+       })
     }
 
 
@@ -171,6 +200,7 @@
         setTimeout(function () {
             video = document.getElementsByTagName('video')[0]
             if (video) {
+              startPlay()
             } else {
                 findVideo()
             }
@@ -257,6 +287,55 @@
 
         console.log(str)
         showTip(str, fn)
+    }
+
+
+    // 显示视频
+    function showVideo () {
+      $('.poster').hide()     // 隐藏占位div
+      $('#video').show()
+      video.removeEventListener('timeupdate', replace)
+      video.play()
+    }
+
+    // 替换视频占位
+    function setReplace () {
+      video.pause()
+      var height = $('#video').height()
+      var width = $('#video').width()
+
+
+      $('.poster').css({'width': width + 'px', 'height': height + 'px', 'background': 'rgba(0,0,0,0.8)','background-image': $('.tvp_poster_img').css('background-image'),'background-size': '100%'}).click(function () {     // 绑定点击事件，设置图片
+
+        if (count < 4) {      // 如果次数 < 4 弹出提示
+          initVideo()
+        } else {    // 次数足够
+          showVideo()
+        }
+      }).show()
+
+      initVideo()
+
+      $('#video').hide()
+    }
+
+    // 首次播放
+    var replace = null      // 监听事件
+    function startPlay () {
+
+      if (count != 4) {
+        count = 0
+      }
+
+		  video.addEventListener('timeupdate', function () {     // 播放监听
+        var duration = video.duration
+        var currentTime = video.currentTime
+        if (duration != 0 && count < 4) {
+				  if (currentTime > duration * 0.5) {
+            setReplace()
+          }
+        }
+	    })
     }
 
     // 提示框

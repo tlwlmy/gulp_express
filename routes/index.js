@@ -11,7 +11,7 @@ router.get('/sv',function(req, res){
   console.log(murl)
 
   res.render('v3A',{
-    title:'首页 ',
+    murl: murl
   })
 })
 

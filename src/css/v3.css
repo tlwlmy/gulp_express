@@ -7,8 +7,8 @@ body{
 .title{
     line-height: 1.4;
 }
-.publish{
-    color: #8c8c8c;
+.material {
+  color: #8c8c8c;
 }
 .author{
     color: #607fa6;
