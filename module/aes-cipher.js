@@ -5,12 +5,15 @@ encrypt = function (key, raw) {
     key = new Buffer(key)
 
     var cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-    cipher.update(new Buffer(raw));
+    //cipher.update(new Buffer(raw));
+    //enc = cipher.final('base64');
 
-    enc = cipher.final('base64');
+    var crypted = cipher.update(raw, 'utf8', 'binary');
+    crypted += cipher.final('binary');
+    crypted = new Buffer(crypted, 'binary')
     
     // 拼接iv串
-    enc = Buffer.concat([iv, new Buffer(enc, 'base64')])
+    enc = Buffer.concat([iv, new Buffer(crypted, 'base64')])
     enc = enc.toString('base64')
 
     return enc

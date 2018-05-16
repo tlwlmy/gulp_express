@@ -2,7 +2,7 @@ var constant = require('./constant')
 var aes_cipher = require('./../module/aes-cipher')
 
 module.exports.aes_encrypt_dict = function (final) {
-  encrypted = aes_cipher.encrypt_dict(constant.AES_ENCRYPT_SECRET, final)
+  var encrypted = aes_cipher.encrypt_dict(constant.AES_ENCRYPT_SECRET, final)
 
   return encodeURI(encrypted)
 }
@@ -11,6 +11,7 @@ module.exports.generate_material_url = function () {
   // 生产素材链接
   
   final = {
+    'action': constant.FISSION_ACTION_GET_MATERIAL,
     'vid': constant.VERSION
   }
 
