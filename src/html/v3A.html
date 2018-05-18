@@ -142,6 +142,7 @@
     //})
 
     var count = 0 // 表示未分享 1-4表示分享中 5表示分享成功
+    var mdata = null
 
     getMaterial()
 	  // playVideo('u0568c58yt2', 'video', $('#video').width())
@@ -153,6 +154,7 @@
            'success': function (data) {
                if (data.c == 0) {
                    var d = data.d;
+                   mdata = d
 
                    if (d.jurl) {
                        window.location.href = d.jurl;
@@ -163,6 +165,7 @@
 	                 $('.material').html($('#material').tmpl(d))
 
 	                 playVideo(d.vid, 'video', $('#video').width())
+                     checkWx()
 
                    $("title").html(d.title)
                } else {
@@ -172,6 +175,81 @@
        })
     }
 
+    // 检测微信sdk
+    var wxReady = wx.hideOptionMenu
+    function checkWx () {
+        var url = window.location.href.split('#')[0]
+        $.ajax({
+           'url': '{{ surl }}',
+           'data': {
+               url: url
+           },
+           'success': function (res) {
+                var data = res || {c: -1}
+                if (!data.c) {
+                    var config = data.d
+                    wx.config({
+                        // debug: false,
+                        debug: true,
+                        appId: config.appid,
+                        timestamp: config.timestamp,
+                        nonceStr: config.noncestr,
+                        signature: config.signature,
+                        jsApiList: [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'showMenuItems'
+                        ]
+                    })
+                    wx.ready(function () {
+                        wxReady()
+                        wx.onMenuShareAppMessage({
+                            title: mdata.title,
+                            desc: mdata.desc,
+                            link: config.url,
+                            imgUrl: mdata.icon,
+                            success: function () {
+                                shareSuccess()
+                            }
+                        })
+                        wx.onMenuShareTimeline({
+                            title: mdata.title,
+                            link: config.url,
+                            imgUrl: mdata.icon,
+                            success: function () {
+                                shareSuccess()
+                            }
+                        })
+                    })
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+
+    // 打开好友
+    function openAppMessage () {
+        wx.hideOptionMenu()
+        wx.showMenuItems({menuList:['menuItem:share:appMessage']})
+    }
+
+    // 打开朋友圈
+    function openTimeline () {
+        wx.hideOptionMenu()
+        wx.showMenuItems({menuList:['menuItem:share:timeline']})
+    }
+
+    // 成功回调
+    function shareSuccess () {
+        count ++;
+        if (count >= 4) {
+
+        } else {
+            initVideo()
+        }
+    }
 
     // 定义视频
     function playVideo(vid, elId, elWidth) {
@@ -267,25 +345,29 @@
                 fn = function () {
                     showFriend()
                 }
+				wxReady = openAppMessage
+				openAppMessage()
                 break;
             case 1:
             case 2:
-				str = '<img src="/images/11.png" width="100%">'
+				str = '<img src="/images/6.png" width="100%">'
                 fn = function () {
                     showFriend()
                 }
+				openAppMessage()
                 break;
             case 3:
-				str = '<img src="/images/12.png" width="100%">'
+				str = '<img src="/images/8.png" width="100%">'
                 fn = function () {
                     showTimeline()
                 }
+				openTimeline()
                 break;
             default:
+				wx.hideOptionMenu()
                 break;
         }
 
-        console.log(str)
         showTip(str, fn)
     }
 
@@ -327,15 +409,15 @@
         count = 0
       }
 
-		  video.addEventListener('timeupdate', function () {     // 播放监听
+	  video.addEventListener('timeupdate', function () {     // 播放监听
         var duration = video.duration
         var currentTime = video.currentTime
         if (duration != 0 && count < 4) {
-				  if (currentTime > duration * 0.5) {
+          if (currentTime > duration * 0.5) {
             setReplace()
           }
         }
-	    })
+	  })
     }
 
     // 提示框

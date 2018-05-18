@@ -10,9 +10,21 @@ module.exports.aes_encrypt_dict = function (final) {
 module.exports.generate_material_url = function () {
   // 生产素材链接
   
-  final = {
+  var final = {
     'action': constant.FISSION_ACTION_GET_MATERIAL,
     'vid': constant.VERSION
+  }
+
+  return constant.CM_URL_INTERFACE + '?s=' + this.aes_encrypt_dict(final)
+}
+
+module.exports.generate_share_url = function (domain) {
+  // 生产素材链接
+
+  var final = {
+    'action': constant.FISSION_ACTION_GET_JSSDK_INFO,
+    'vid': constant.VERSION,
+    'domain': domain
   }
 
   return constant.CM_URL_INTERFACE + '?s=' + this.aes_encrypt_dict(final)
