@@ -12,8 +12,7 @@ function initJsShare (rurl, mdata, fn) {
             if (!data.c) {
                 var config = data.d
                 wx.config({
-                    // debug: false,
-                    debug: true,
+                    debug: false,
                     appId: config.appid,
                     timestamp: config.timestamp,
                     nonceStr: config.noncestr,

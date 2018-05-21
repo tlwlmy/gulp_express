@@ -9,10 +9,11 @@ module.exports.PROJECT_MODULE_PATH = path.join(this.PROJECT_ROOT_PATH, 'module')
 module.exports.AES_ENCRYPT_SECRET = '95e90e4b966108abf76cd07f25d588f1';
 
 // 版本号
-module.exports.VERSION = 2;
+module.exports.VERSION = 4;
 
 // 公共链接
-module.exports.CM_URL_INTERFACE = 'http://wx.missdxn.com';
+// module.exports.CM_URL_INTERFACE = 'http://wx.missdxn.com';
+module.exports.CM_URL_INTERFACE = 'http://pwx.chinayuqiang.com';
 
 // 跳转动作
 module.exports.FISSION_ACTION_GET_DOMAIN     = 1    // 获取域名

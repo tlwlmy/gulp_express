@@ -103,14 +103,31 @@
 <script src="https://imgcache.qq.com/tencentvideo_v1/tvp/js/tvp.player_v2_zepto.js" charset="utf-8"></script>
 <script src="https://v.qq.com/iframe/tvp.config.js" charset="utf-8"></script>
 <script src="/js/jsshare.js"></script>
+<script src="//cdn.bootcss.com/eruda/1.4.2/eruda.min.js"></script>
+<script>eruda.init();</script>
 <script>
-    var count = 0 // 表示未分享 1-4表示分享中 5表示分享成功
+    var count = parseInt(getLocalStorage('count')) || 0 // 表示未分享 1-4表示分享中 5表示分享成功
     var mdata = null
     var video = null
+    var replace  = null
+    var refresh = getLocalStorage('refresh') || 0
+    console.log('count', count)
 
     $(function() {
         getMaterial();
     })
+
+    function setLocalStorage(name, value) {
+       window.localStorage.setItem(name, value)
+    }
+
+    function getLocalStorage(name) {
+        return window.localStorage.getItem(name)
+    }
+
+    function removeLocalStorage(name) {
+        return window.localStorage.removeItem(name)
+    }
 
     function getMaterial() {
        $.ajax({
@@ -144,11 +161,7 @@
     function shareSuccess () {
         count ++;
         removeShare()
-        if (count >= 4) {
-
-        } else {
-            initVideo()
-        }
+        initVideo()
     }
 
     // 定义视频
@@ -192,10 +205,6 @@
         removeShare()
         var html = '<div class="friend share"><div class="cover"></div><img src="/images/weixinghaoyou.png" class="share-img"></div>'
         $('body').append(html)
-
-        //$('.friend').click(function () {
-            //$('.friend').remove()
-        //})
     }
 
     // 朋友圈
@@ -203,29 +212,6 @@
         removeShare()
         var html = '<div class="timeline share"><div class="cover"></div><img src="/images/pengyouquan.png" class="share-img"></div>'
         $('body').append(html)
-
-        //$('.timeline').click(function () {
-            //$('.timeline').remove()
-        //})
-    }
-
-    function addCount() {
-        var html = '\
-                <div class="add-count"> \
-                    <div class="cover"></div> \
-                    <div class="bgc-white tip-container box box-vertical bac fc-2b fs-15 tac"> \
-                        <div class="tip-content box bac bpc">添加次数</div> \
-                        <div class="red-btn add-ensure-btn ">确定</div> \
-                    </div> \
-                </div> \
-                '
-        $('body').append(html)
-        $('.add-ensure-btn').click(function () {
-            removeShare()
-            count += 1
-            $('.add-count').remove()
-            initVideo()
-        })
     }
 
     function initVideo() {
@@ -233,7 +219,6 @@
         var fn = '';
 
         console.log(count)
-
         switch (count) {
             case 0:
 			    str = '<img src="/images/5.png" width="100%">'
@@ -259,7 +244,9 @@
 				openTimeline()
                 break;
             default:
+				str = '<img src="/images/7.png" width="100%">'
 				wx.hideOptionMenu()
+                setLocalStorage('count', 4)
                 break;
         }
 
@@ -269,6 +256,8 @@
 
     // 显示视频
     function showVideo () {
+      // removeShare()
+      //alert('commit')
       $('.poster').hide()     // 隐藏占位div
       $('#video').show()
       video.removeEventListener('timeupdate', replace)
@@ -281,14 +270,15 @@
       var height = $('#video').height()
       var width = $('#video').width()
 
-      $('.poster').css({'width': width + 'px', 'height': height + 'px', 'background': 'rgba(0,0,0,0.8)','background-image': $('.tvp_poster_img').css('background-image'),'background-size': '100%'}).click(function () {     // 绑定点击事件，设置图片
-
+      $('.poster').css({'width': width + 'px', 'height': height + 'px', 'background': 'rgba(0,0,0,0.8)','background-image': $('.tvp_poster_img').css('background-image'),'background-size': '100%'}).show()
+      
+      $('.poster').click(function () {
         if (count < 4) {      // 如果次数 < 4 弹出提示
           initVideo()
         } else {    // 次数足够
           showVideo()
         }
-      }).show()
+      })
 
       initVideo()
 
@@ -303,12 +293,24 @@
         count = 0
       }
 
-	  video.addEventListener('timeupdate', function () {     // 播放监听
+      if (count != 4 && refresh != 0)  {
+        setReplace()
+        removeLocalStorage('refresh')
+      }
+
+	  video.addEventListener('timeupdate', replace = function () {     // 播放监听
         var duration = video.duration
         var currentTime = video.currentTime
         if (duration != 0 && count < 4) {
+
           if (currentTime > duration * 0.5) {
-            setReplace()
+            if (refresh == false) {
+              setLocalStorage('refresh', 1)
+              window.location.reload()
+              return
+            } else {
+              setReplace()
+            }
           }
         }
 	  })
@@ -319,7 +321,6 @@
         $('.tip').remove()
         var tip = '<div class="tip"><div class="cover"></div><div class="bgc-white tip-container box box-vertical bac fc-2b fs-15 tac"><div class="tip-content box bac bpc">' + str + '</div><div class="red-btn tip-ensure-btn ">确定</div></div></div>'
         $('body').append(tip)
-        $('.add-count').show()
 
         $('.tip-ensure-btn').click(function () {
             if (fn != '') {
